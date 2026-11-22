@@ -1,39 +1,39 @@
 # 🎙 Speech App — TTS & STT
 
-Ses ve metin arasında çift yönlü dönüşüm yapan bir **Windows Forms** uygulaması.  
-Kullanıcı yazdığı metni sesli okutabilir; mikrofona konuşarak metni ekrana aktarabilir.
+A bidirectional speech and text conversion desktop application developed with **Windows Forms (C# / .NET)**.  
+Users can convert typed text to spoken audio (Text-to-Speech) and transcribe spoken input from a microphone to text in real time (Speech-to-Text).
 
 ---
 
-## 🛠 Kullanılan Teknoloji / NuGet Paketleri
+## 🛠 Technologies & NuGet Packages
 
-| Teknoloji | Açıklama |
+| Technology / Library | Description |
 |---|---|
-| **C# / .NET 10 (Windows)** | Hedef platform |
-| **Windows Forms (WinForms)** | Grafik arayüz çerçevesi |
-| **System.Speech 11.0.0** | TTS (SpeechSynthesizer) ve STT (SpeechRecognitionEngine) |
+| **C# / .NET 10 (Windows)** | Target framework and runtime platform |
+| **Windows Forms (WinForms)** | Graphical user interface framework |
+| **System.Speech (v11.0.0)** | .NET Speech API providing `SpeechSynthesizer` (TTS) and `SpeechRecognitionEngine` (STT) |
 
 ---
 
-## ⚙ Kurulum ve Çalıştırma Adımları
+## ⚙ Prerequisites, Installation & Running
 
-### Gereksinimler
-- Windows 10/11
-- [.NET 10 Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (veya SDK)
-- Mikrofon (Speech-to-Text için)
+### Prerequisites
+- Windows 10 or Windows 11
+- [.NET 10 SDK / Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
+- Working microphone (required for Speech-to-Text)
 
-### Çalıştırma
+### Building & Running from Source
 
 ```bash
-# Depoyu klonla
+# Clone the repository
 git clone https://github.com/mustafahaccar18-art/SpeechApp.git
 cd SpeechApp
 
-# Derle ve çalıştır
+# Restore packages, build and run
 dotnet run --project SpeechApp.csproj
 ```
 
-Veya doğrudan çalıştırmak için:
+Alternatively, you can run the pre-built executable directly:
 
 ```
 bin\Release\net10.0-windows\SpeechApp.exe
@@ -41,49 +41,53 @@ bin\Release\net10.0-windows\SpeechApp.exe
 
 ---
 
-## ✨ Uygulamanın Temel Özellikleri
+## ✨ Key Features
 
-### 📢 Metinden Sese (Text-to-Speech)
-- `RichTextBox` içindeki metin sesli okunur
-- **▶ Başlat** — seslendirmeyi başlatır
-- **⏸ Duraklat / Devam Et** — seslendirmeyi duraklatır veya devam ettirir
-- **⏹ Durdur** — seslendirmeyi iptal eder
-- **🗑 Temizle** — metin alanını temizler
-- **Hız** ve **Ses** kaydırıcıları ile okuma hızı ve ses seviyesi ayarlanabilir
+### 📢 Text-to-Speech (TTS)
+- Reads text entered into the text editor (`RichTextBox`).
+- **▶ Start (Başlat):** Asynchronously reads the text aloud.
+- **⏸ Pause / Resume (Duraklat):** Pauses ongoing speech or resumes from where it was paused.
+- **⏹ Stop (Durdur):** Immediately halts the speech synthesis.
+- **🗑 Clear (Temizle):** Clears the text input field.
+- **Speed & Volume Adjustments:** Dedicated sliders to control speech rate (`-10` to `+10`) and volume level (`0` to `100`).
 
-### 🎤 Sesten Metne (Speech-to-Text)
-- Mikrofon üzerinden alınan konuşma gerçek zamanlı olarak metin alanına aktarılır
-- Sistemde kurulu olan en uygun konuşma tanıma motoru otomatik seçilir (önce Türkçe, sonra İngilizce)
-- Mikrofon erişimi reddedildiğinde veya motor bulunamadığında kullanıcıya anlaşılır hata mesajı gösterilir
+### 🎤 Speech-to-Text (STT)
+- Captures audio from the default input device (microphone) and transcribes recognized words into the output text field.
+- **Automatic Recognizer Selection:** Automatically detects installed Windows speech recognition engines (falls back gracefully to English or other installed languages if Turkish is not present).
+- **Error Handling & Feedback:** Provides descriptive error alerts if the microphone is disconnected, disabled, or if privacy permissions block access (`E_ACCESSDENIED`).
+- **🎙 Start Listening, ⏹ Stop, 🗑 Clear:** Full control over speech recognition lifecycle.
 
-### 🖥 Arayüz
-- Alt status bar'da **hangi işlemin aktif olduğu** her an görüntülenir
-- Her iki panelde de anlık **durum etiketi** bulunur (Hazır / Çalışıyor / Hata vb.)
-
----
-
-## 🖼 Ekran Görüntüleri
-
-### TTS — Metin girişi ve çalışma ekranı
-![Screenshot 1](screenshots/screenshot1.png)
-
-### Ayarlar (Hız & Ses kaydırıcıları)
-![Screenshot 2](screenshots/screenshot2.png)
+### 🖥 User Interface & Status
+- **Active Operation Bar:** Bottom status bar clearly indicates whether the app is idle, speaking (TTS), or actively listening (STT).
+- **Responsive Layout:** Structured layout built with container panels and controls ensuring clean alignment across window resizes.
 
 ---
 
-## ⚠ Bilinen Sınırlamalar / Geliştirme Notları
+## 🖼 Screenshots
 
-- **Türkçe STT desteklenmiyor:** Windows'un yerleşik `System.Speech` API'si Türkçe konuşma tanıma motoru içermez. Uygulama bu durumda otomatik olarak İngilizce motora geçer.
-- **Mikrofon izni:** Windows Gizlilik ayarlarından masaüstü uygulamalarına mikrofon erişimi verilmesi gerekir.  
-  *Ayarlar → Gizlilik ve Güvenlik → Mikrofon → Masaüstü uygulamalarına izin ver → Açık*
-- Gelecekte Azure Cognitive Services entegrasyonu ile Türkçe STT desteği eklenebilir.
+### Text-to-Speech (TTS) — Text Input & Controls
+![Text-to-Speech View](screenshots/screenshot1.png)
+
+### Speed & Volume Sliders Adjustment
+![Settings & Sliders View](screenshots/screenshot2.png)
 
 ---
 
-## 👤 Öğrenci Bilgileri
+## ⚠️ Known Limitations & Development Notes
 
-| Alan | Bilgi |
+- **Windows Speech Recognition Language Support:**  
+  Windows built-in `System.Speech` desktop API requires an installed desktop speech recognition engine. While Turkish TTS voices are standard on Windows, Turkish speech recognition engines are not bundled by default with `System.Speech`. The application automatically detects available language engines (such as `en-US`) and utilizes them.
+- **Microphone Permissions:**  
+  Windows Privacy Settings must grant desktop applications access to the microphone:  
+  *Settings → Privacy & Security → Microphone → "Let desktop apps access your microphone" → ON*.
+- **Future Improvements:**  
+  Integration with cloud-based cognitive services (e.g., Azure Speech SDK or Google Cloud Speech-to-Text) could provide native multilingual recognition without relying on local Windows legacy speech engines.
+
+---
+
+## 👤 Student Information
+
+| Field | Detail |
 |---|---|
-| **Ad Soyad** | Mustafa Haccar |
-| **Öğrenci No** | 18 |
+| **Full Name** | Mustafa Haccar |
+| **Student ID** | 18 |
